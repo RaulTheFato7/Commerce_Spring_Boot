@@ -1,6 +1,7 @@
 package com.devsuperior.commerce.controller;
 
 import com.devsuperior.commerce.dto.ProductDTO;
+import com.devsuperior.commerce.entities.Product;
 import com.devsuperior.commerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,11 @@ public class ProductController {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{dto}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
-
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
     }
 
 }
