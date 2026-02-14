@@ -3,15 +3,12 @@ package com.devsuperior.commerce.service;
 import com.devsuperior.commerce.dto.ProductDTO;
 import com.devsuperior.commerce.entities.Product;
 import com.devsuperior.commerce.repositories.ProductRepository;
+import com.devsuperior.commerce.service.exceptionals.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -21,10 +18,9 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Optional<Product> result = repository.findById(id);
-        Product product = result.get();
-        ProductDTO dto = new ProductDTO(product);
-        return dto;
+        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        return new ProductDTO(product);
+
     }
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
