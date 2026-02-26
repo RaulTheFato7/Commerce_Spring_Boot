@@ -26,11 +26,10 @@ public class ProductService {
     public ProductDTO findById(Long id) {
         Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         return new ProductDTO(product);
-
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable);
+    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+        Page<Product> result = repository.searchByName(name, pageable);
         return result.map(x -> new ProductDTO(x));
     }
     @Transactional
