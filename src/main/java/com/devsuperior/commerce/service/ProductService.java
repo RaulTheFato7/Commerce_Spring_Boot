@@ -1,7 +1,9 @@
 package com.devsuperior.commerce.service;
 
+import com.devsuperior.commerce.dto.CategoryDTO;
 import com.devsuperior.commerce.dto.ProductDTO;
 import com.devsuperior.commerce.dto.ProductMinDTO;
+import com.devsuperior.commerce.entities.Category;
 import com.devsuperior.commerce.entities.Product;
 import com.devsuperior.commerce.repositories.ProductRepository;
 import com.devsuperior.commerce.service.exceptionals.DataBaseException;
@@ -59,15 +61,21 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setImgUrl(dto.getImgUrl());
         entity.setPrice(dto.getPrice());
+        entity.getCategories().clear();;
+        for (CategoryDTO catDTO : dto.getCategories()) {
+            Category cat = new Category();
+            cat.setId(catDTO.getId());
+            entity.getCategories().add(cat);
+        }
     }
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("Resource not fount!");
+            throw new ResourceNotFoundException("Resource not found!");
         }
         try {
             repository.deleteById(id);
-        } catch (DataIntegrityViolationException  e ){
+        } catch (DataIntegrityViolationException  e ) {
             throw new DataBaseException("Referencial integrity failure");
         }
     }
