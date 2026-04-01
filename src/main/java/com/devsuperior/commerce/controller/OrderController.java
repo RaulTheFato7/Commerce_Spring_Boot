@@ -29,4 +29,11 @@ public class OrderController {
         OrderDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping
+    public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO dto) {
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{dto}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
 }
