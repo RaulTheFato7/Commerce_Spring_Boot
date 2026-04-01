@@ -1,6 +1,7 @@
 package com.devsuperior.commerce.service;
 
 import com.devsuperior.commerce.dto.ProductDTO;
+import com.devsuperior.commerce.dto.ProductMinDTO;
 import com.devsuperior.commerce.entities.Product;
 import com.devsuperior.commerce.repositories.ProductRepository;
 import com.devsuperior.commerce.service.exceptionals.DataBaseException;
@@ -29,9 +30,9 @@ public class ProductService {
         return new ProductDTO(product);
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
