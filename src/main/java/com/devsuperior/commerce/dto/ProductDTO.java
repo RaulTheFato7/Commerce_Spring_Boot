@@ -2,10 +2,7 @@ package com.devsuperior.commerce.dto;
 
 import com.devsuperior.commerce.entities.Category;
 import com.devsuperior.commerce.entities.Product;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +16,12 @@ public class ProductDTO {
     @Size(min = 10, message = "The description must have at least 10 characters")
     @NotBlank(message = "Required field")
     private String description;
+    @NotNull(message = "Required field")
     @Positive(message = "The price must be positive")
     private Double price;
     private String imgUrl;
 
-    @NotEmpty(message = "Precisa conter pelo menos 1 categoria")
+    @NotEmpty(message = "it must contain at least 1 category")
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(){}

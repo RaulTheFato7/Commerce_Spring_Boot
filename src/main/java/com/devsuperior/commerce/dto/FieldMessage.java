@@ -17,4 +17,8 @@ public class FieldMessage {
     public String getMessage() {
         return message;
     }
+
+    public Object getFieldName() {
+        return name;
+    }
 }
